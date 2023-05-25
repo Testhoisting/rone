@@ -6,11 +6,18 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { otpSchema } from '../models/otp.model';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from '../jwtAuth/strategy/jwt.strategy';
+import { HttpModule } from '@nestjs/axios';
+import { otpService } from './otpService';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    HttpModule,
     JwtModule.register({
       secret: 'super-secret-ronedomainholder@New',
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true,
     }),
     MongooseModule.forFeature([
       { name: 'usersDta_tbs', schema: userSchema },
@@ -18,6 +25,6 @@ import { JwtStrategy } from '../jwtAuth/strategy/jwt.strategy';
     ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, otpService],
 })
 export class AuthModule {}

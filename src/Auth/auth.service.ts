@@ -23,9 +23,9 @@ export class AuthService {
           {
             userId: user._id,
           },
-          { expiresIn: '2m' },
+          { expiresIn: '24h' },
         );
-        return { status: 200, message: 'user details is valid', token };
+        return { status: 200, message: 'Otp verified successfully', token };
       } else {
         return { status: 401, message: 'InCorrect Email' };
       }
@@ -87,32 +87,18 @@ export class AuthService {
       roneId: credentials.roneId,
     });
     if (result) {
-      if (result.registered === true) {
-        if (result.contact == credentials.contact) {
-          const response = await this.sendOtp(credentials.contact, result._id);
-          if (response.status === 200) {
-            const token = this.jwtService.sign(
-              {
-                contact: credentials.contact,
-                userId: result._id,
-              },
-              { expiresIn: '2m' },
-            );
-            return { status: 200, message: response.message[0], token };
-          } else {
-            console.log(response);
-            return { status: 401, error: 'error occur' };
-          }
-        } else {
-          return {
-            status: 401,
-            error: 'Please Enter registered mobile number',
-          };
-        }
+      if (result.contact == credentials.contact) {
+        const token = this.jwtService.sign(
+          {
+            userId: result._id,
+          },
+          { expiresIn: '24h' },
+        );
+        return { status: 200, message: 'Otp verified successfully', token };
       } else {
         return {
           status: 401,
-          error: 'User not registered',
+          error: 'Please Enter registered mobile number',
         };
       }
     } else {

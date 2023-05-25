@@ -31,6 +31,7 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.0.4",
+    "axios": "^1.4.0",
     "csurf": "^1.11.0",
     "fast-two-sms": "^3.0.0",
     "googleapis": "^105.0.0",
